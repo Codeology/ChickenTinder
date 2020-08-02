@@ -1,0 +1,45 @@
+div { 
+    background-color: rgba(211, 211, 211, 0.459); 
+    padding: 25px; 
+}
+h1 {
+    text-align: center; 
+    color: #aa0a0a; 
+    size: 200px; 
+    font-family:Verdana, Geneva, sans-serif;
+}
+
+h2 {
+    text-align: center;
+}
+p {
+    text-align: center; 
+    color: #7f20b6; 
+    padding: 15px; 
+    font-family:Verdana, Geneva, sans-serif; 
+    font-size: 40px;
+}
+body {
+    text-align: center;
+}
+label {
+    color:#aa0a0a; 
+    font-family: Verdana, Geneva, sans-serif
+}
+* {
+    margin: 0;
+    padding: 0;
+}
+.imgbox {
+    display: grid;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0);
+}
+.center-fit {
+    max-width: 100%;
+    max-height: 100vh;
+    margin: auto;
+}
+button {
+    text-align: center;
+}
