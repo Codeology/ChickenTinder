@@ -1,12 +1,29 @@
 import React from "react";
 import { render } from "react-dom";
 
+import Match from "./Match"
+import Condition from "./Condition"
+
+var profile = {
+    name: 'Sliver Pizzeria',
+    imgURL: 'https://hoodline.imgix.net/uploads/story/image/213584/SLIVER_Pizzeria_Photo_1_Enhanced.jpg?auto=format',
+    rating: '4.5 stars',
+    location: '2468 Telegraph Ave.',
+    match: false
+  };
+
+
 class Profile extends React.Component {
     constructor() {
         super();
-        this.state = {
-            match: 0
-        }
+    }
+
+    //handleClick method 
+      //Checks if a match 
+      //If yes, render match page 
+      //If no, make next API call and re-populate that page with new restuarant 
+    afterSubmit(event) {
+        //event.preventDefault();
     }
 
     render() {
@@ -28,9 +45,9 @@ class Profile extends React.Component {
                     {this.props.location}
                 </div>
                 <div>
-                    <form>
-                    <input type="submit" name='swipe' value="Let's go!" onclick="" method="POST" action="/"/>
-                    <input type="submit" name='swipe' value="Not Interested." onclick="" method="POST" action="/"/>
+                    <form onSubmit={this.afterSubmit}>
+                    <input type="submit" name='swipe' value="Let's go!" method="POST" action="http://localhost:5000"/>
+                    <input type="submit" name='swipe' value="Not Interested." method="POST" action="http://localhost:5000"/>
                     </form>
                 </div>
                 </div>
