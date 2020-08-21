@@ -63,23 +63,10 @@ class Condition extends React.Component{
         //     front: false
         //   };
         
-        fetch("http://localhost:5000")
-            .then(data => {this.createRestaurantObject(data)});
-        
-            
+        // fetch("http://localhost:5000")
+        //     .then(data => {this.createRestaurantObject(data)});
         
 
-        if(this.restaurant.match) {
-            return (<div>
-                        
-                        <Match 
-                        name={this.restaurant.name}
-                        imgURL={this.restaurant.imgURL}
-                        rating={this.restaurant.rating}
-                        location={this.restaurant.location}
-                        />
-                      </div>); 
-        } else {
             return (<div>
                         
                         <Profile  
@@ -89,7 +76,6 @@ class Condition extends React.Component{
                         location={this.restaurant.location}
                         />
                       </div>);
-        }
     }
 }
 

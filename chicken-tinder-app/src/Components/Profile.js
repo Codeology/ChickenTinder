@@ -16,38 +16,66 @@ var profile = {
 class Profile extends React.Component {
     constructor() {
         super();
+        this.restaurant = {};
+        this.createRestaurantObject = this.createRestaurantObject.bind(this);
     }
 
+    createRestaurantObject(data) {
+        this.restaurant = data;
+    }
     //handleClick method 
       //Checks if a match 
       //If yes, render match page 
       //If no, make next API call and re-populate that page with new restuarant 
     afterSubmit(event) {
-        //event.preventDefault();
+        console.log("hiiii")
+        fetch("http://localhost:5000", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            } 
+        ).then(function(response) {
+            console.log(response.headers.get('Content-Length'))
+            console.log(response)
+        })
+            //.then(data => {this.createRestaurantObject(data)})
+            .then(data => console.log(data));
+        event.preventDefault();
     }
 
     render() {
+        if (this.restaurant.match) {
+            return (
+                <Match 
+                name={this.restaurant.name}
+                imgURL={this.restaurant.imgURL}
+                rating={this.restaurant.rating}
+                location={this.restaurant.location}
+                />
+            )
+        }
         return (
             <div className="Profile">
                 <div className="RestaurantInfo">
                 <img
                     className="img"
-                    src={this.props.imgURL}
-                    alt={this.props.name}
+                    src={this.restaurant.imgURL}
+                    alt={this.restaurant.name}
                 />
                 <div className="RestaurantInfo-Name">
-                    {this.props.name}
+                    {this.restaurant.name}
                 </div>
                 <div className="RestaurantInfo-Rating">
-                    {this.props.rating}
+                    {this.restaurant.rating}
                 </div>
                 <div className="RestaurantInfo-Loc">
-                    {this.props.location}
+                    {this.restaurant.location}
                 </div>
                 <div>
                     <form onSubmit={this.afterSubmit}>
-                    <input type="submit" name='swipe' value="Let's go!" method="POST" action="http://localhost:5000"/>
-                    <input type="submit" name='swipe' value="Not Interested." method="POST" action="http://localhost:5000"/>
+                    <input type="submit" name='swipe' value="Let's go!"/>
+                    <input type="submit" name='swipe' value="Not Interested."/>
                     </form>
                 </div>
                 </div>
