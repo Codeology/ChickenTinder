@@ -1,6 +1,10 @@
 div { 
     background-color: rgba(211, 211, 211, 0.459); 
-    padding: 25px; 
+    padding: 5px; 
+}
+img {
+    max-height: 500px;
+    min-height: 500px;
 }
 h1 {
     text-align: center; 

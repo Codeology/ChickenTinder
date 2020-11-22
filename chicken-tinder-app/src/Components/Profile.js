@@ -14,73 +14,150 @@ var profile = {
 
 
 class Profile extends React.Component {
-    constructor() {
-        super();
-        this.restaurant = {};
+    constructor(props) {
+        super(props);
+        this.restaurant = {}
+        this.state = {
+            restaurant : {},
+            count: 0,
+            match: false,
+            pref: this.props.pref
+        }
         this.createRestaurantObject = this.createRestaurantObject.bind(this);
     }
 
     createRestaurantObject(data) {
-        this.restaurant = data;
+        this.setState({restaurant : data});
     }
     //handleClick method 
       //Checks if a match 
       //If yes, render match page 
       //If no, make next API call and re-populate that page with new restuarant 
-    afterSubmit(event) {
-        console.log("hiiii")
-        fetch("http://localhost:5000", {
+    // afterSubmit(event) {
+    //     event.preventDefault();
+    //     console.log("hiiii")
+    //     let state = this.setState;
+    //     fetch("http://localhost:5000", {
+    //             method: "POST",
+    //             headers: {
+    //                 'Content-Type': 'application/html'
+    //             }
+    //         } 
+    //     ).then(function(response) {
+    //         console.log(response.headers.get('Content-Length'))
+    //         response.json().then(v => {
+    //             console.log(v[0]);
+    //             state({restaurant: v});
+    //         })
+    //     })
+        
+    // }
+
+    async afterSubmitNo(event) {
+        event.preventDefault();
+        this.setState({
+            count : this.state.count + 1
+        })
+        let response = await fetch("http://localhost:5000", {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json'
-                }
+                },
+                body: JSON.stringify(this.state)
             } 
-        ).then(function(response) {
-            console.log(response.headers.get('Content-Length'))
-            console.log(response)
-        })
-            //.then(data => {this.createRestaurantObject(data)})
-            .then(data => console.log(data));
+        )
+        //console.log(event);
+        let data = await response.json();
+        data = JSON.stringify(data);
+        data = JSON.parse(data);
+        //console.log(data)
+        this.createRestaurantObject(data);
+        console.log(this.restaurant.NAME);
+    }
+
+    async afterSubmitYes(event) {
         event.preventDefault();
+        this.setState({
+            count : this.state.count - 1
+        })
+        this.setState({match : true});
+        // let response = await fetch("http://localhost:5000", {
+        //         method: "POST",
+        //         headers: {
+        //             'Content-Type': 'application/json'
+        //         },
+        //         body: JSON.stringify(this.state)
+        //     } 
+        // )
+        // console.log(event);
+        // let data = await response.json();
+        // data = JSON.stringify(data);
+        // data = JSON.parse(data);
+        // console.log(data)
+        // this.createRestaurantObject(data);
+        // console.log(this.restaurant.NAME);
     }
 
     render() {
-        if (this.restaurant.match) {
+        if (this.state.match) {
             return (
                 <Match 
-                name={this.restaurant.name}
-                imgURL={this.restaurant.imgURL}
-                rating={this.restaurant.rating}
-                location={this.restaurant.location}
+                name={this.state.restaurant.NAME}
+                imgURL={this.state.restaurant.PICTURE}
+                rating={this.state.restaurant.YELP_RATING}
+                location={this.state.restaurant.LOCATION}
                 />
             )
         }
+        if (Object.keys(this.state.restaurant).length === 0) {
+            console.log('hello')
+            return(
+                <div>
+                    <p>How to play:</p>
+                    <p> 1. Swipe right if you wanna eat at the restaurant. 
+                        2. Swipe left if you don't! 
+                        I hope you're hungry! 
+                        Ready to start swiping?
+                    </p>
+                    <div>
+                        <form onSubmit={e => this.afterSubmitNo(e)}>
+                        <input type="submit" name='swipe' value="I'm ready!"/>
+                        </form>
+                    </div>
+                </div>
+            )
+        } else {
+            console.log(this.state)
         return (
+            
             <div className="Profile">
                 <div className="RestaurantInfo">
                 <img
                     className="img"
-                    src={this.restaurant.imgURL}
-                    alt={this.restaurant.name}
+                    src={this.state.restaurant.PICTURE}
+                    alt={this.state.restaurant.NAME}
                 />
                 <div className="RestaurantInfo-Name">
-                    {this.restaurant.name}
+                    {this.state.restaurant.NAME}
                 </div>
                 <div className="RestaurantInfo-Rating">
-                    {this.restaurant.rating}
+                    {this.state.restaurant.YELP_RATING}
                 </div>
                 <div className="RestaurantInfo-Loc">
-                    {this.restaurant.location}
+                    {this.state.restaurant.LOCATION}
                 </div>
                 <div>
-                    <form onSubmit={this.afterSubmit}>
+                    <form onSubmit={e => this.afterSubmitYes(e)}>
                     <input type="submit" name='swipe' value="Let's go!"/>
+                    </form>
+                    <form onSubmit={e => this.afterSubmitNo(e)}>
                     <input type="submit" name='swipe' value="Not Interested."/>
                     </form>
                 </div>
                 </div>
             </div>
         );
+        }
     }
 }
 
