@@ -21,7 +21,8 @@ class Profile extends React.Component {
             restaurant : {},
             count: 0,
             match: false,
-            pref: this.props.pref
+            pref: this.props.pref,
+            password: this.props.password
         }
         this.createRestaurantObject = this.createRestaurantObject.bind(this);
     }

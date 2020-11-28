@@ -97,7 +97,7 @@ class Condition extends React.Component{
             )
         }
             return (<div>
-                        <Profile pref={this.state.location}/>
+                        <Profile pref={this.state.location} password={this.state.password}/>
                     </div>);
     }
 }
