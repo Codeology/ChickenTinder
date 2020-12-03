@@ -16,9 +16,9 @@ var profile = {
 class Profile extends React.Component {
     constructor(props) {
         super(props);
-        this.restaurant = {}
         this.state = {
             restaurant : {},
+            restaurantsSeen : [],
             count: 0,
             match: false,
             pref: this.props.pref,
@@ -73,30 +73,47 @@ class Profile extends React.Component {
         data = JSON.parse(data);
         //console.log(data)
         this.createRestaurantObject(data);
-        console.log(this.restaurant.NAME);
+        var i;
+        for (i = 0; i < this.state.restaurantsSeen.length; i++) {
+            if (this.state.restaurantsSeen[i] == this.state.restaurant.NAME) {
+                this.setState({
+                    match: true
+                })
+            }
+        }
+        this.state.restaurantsSeen.push(this.state.restaurant.NAME)
+        console.log(this.state.restaurant.NAME);
     }
 
     async afterSubmitYes(event) {
         event.preventDefault();
         this.setState({
-            count : this.state.count - 1
+            count : this.state.count + 1
         })
-        this.setState({match : true});
-        // let response = await fetch("http://localhost:5000", {
-        //         method: "POST",
-        //         headers: {
-        //             'Content-Type': 'application/json'
-        //         },
-        //         body: JSON.stringify(this.state)
-        //     } 
-        // )
-        // console.log(event);
-        // let data = await response.json();
-        // data = JSON.stringify(data);
-        // data = JSON.parse(data);
-        // console.log(data)
-        // this.createRestaurantObject(data);
-        // console.log(this.restaurant.NAME);
+        let response = await fetch("http://localhost:5000", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(this.state)
+            } 
+        )
+        //console.log(event);
+        let data = await response.json();
+        data = JSON.stringify(data);
+        data = JSON.parse(data);
+        //console.log(data)
+        this.createRestaurantObject(data);
+        var i;
+        for (i = 0; i < this.state.restaurantsSeen.length; i++) {
+            if (this.state.restaurantsSeen[i] == this.state.restaurant.NAME) {
+                this.setState({
+                    match: true
+                })
+            }
+        }
+        this.state.restaurantsSeen.push(this.state.restaurant.NAME)
+        console.log(this.state.restaurant.NAME);
     }
 
     render() {
